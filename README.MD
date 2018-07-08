@@ -14,4 +14,6 @@ To run the local webserver
 
 * npm run dev
 
+![preview](https://i.imgur.com/oY8oKDG.png)
+
 https://www.codiceinutile.org/
