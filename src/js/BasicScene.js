@@ -44,7 +44,9 @@ export default class BasicScene {
 
   Add(object) {
     this.scene.add(object.root);
-    this.updatables.push(object);
+    if (object.update) {
+      this.updatables.push(object);
+    }
   }
 
   Update() {

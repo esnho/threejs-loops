@@ -1,17 +1,17 @@
-# Primo video tutorial di codice-inutile
+# Secondo video tutorial di codice-inutile
 
-Questo è il codice del primo video tutorial che trovate al link
-https://www.youtube.com/watch?v=wHdK1Mtuhm8
+Questo è il codice del secondo video tutorial che trovate al link
+This is the source of the second video tutorial realized for Codice Inutile
+
 
 Una volta clonato il repository aprire un terminale nella cartella ed eseguire
+Once cloned the repoisitory run
 
-npm install
+* npm install
 
 Per far partire il webserver locale eseguire
+To run the local webserver
 
-npm run dev
+* npm run dev
 
-This is the source of the first video tutorial realized for Codice Inutile
-
-http://www.lucamoroni.com/
 https://www.codiceinutile.org/
