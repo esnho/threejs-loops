@@ -1,9 +1,9 @@
-# Secondo video tutorial di codice-inutile
+# Terzo video tutorial di codice-inutile
 
-Questo è il codice del secondo video tutorial di Codice Inutile
-**This is the source of the second video tutorial realized for Codice Inutile**
+Questo è il codice del terzo video tutorial di Codice Inutile
+**This is the source code of the third video tutorial realized for Codice Inutile**
 
-[Youtube video](https://www.youtube.com/watch?v=iE96XKJzuoo)
+[Youtube video](https://www.youtube.com/watch?v=kTwHuMrTOKg)
 
 Una volta clonato il repository aprire un terminale nella cartella ed eseguire
 **Once cloned the repoisitory run**
@@ -19,6 +19,6 @@ Per far partire il webserver locale eseguire
 npm run dev
 ```
 
-![preview](https://i.imgur.com/oY8oKDG.png)
+![preview](https://i.imgur.com/xlT5bzI.png)
 
 https://www.codiceinutile.org/
