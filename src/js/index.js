@@ -26,9 +26,11 @@ window.document.addEventListener("click", (e) => {
   raycaster.ray.intersectPlane(plane, point);
 
   const fadingCube = new FadingCube();
-  fadingCube.life = 5;
+  fadingCube.life = 1;
   fadingCube.initialTime = basicScene.clock.getElapsedTime();
   fadingCube.root.position.copy(point);
+  const newScale = new THREE.Vector3(4,4,4);
+  fadingCube.root.scale.copy(newScale)
 
   console.log(fadingCube.initialTime);
   basicScene.Add(fadingCube);

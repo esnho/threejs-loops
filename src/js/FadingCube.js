@@ -13,8 +13,13 @@ export default class FadingCube extends BasicCube {
 
   update(timeElapsed) {
     const currentTime = timeElapsed - this.initialTime;
-    this.mesh.material.opacity = currentTime / this.life;
+    const lifeTime = currentTime / this.life;
+    this.mesh.material.opacity = 1 - lifeTime;
+    this.mesh.rotation.x = currentTime;
+    if (lifeTime > 1) this.OnDie();
   }
+
+  OnDie() {}
 
   // timeElapsed == secondi passati dall'inizio della scena
   // this.life == secondi che il cubo impega ad apparire
