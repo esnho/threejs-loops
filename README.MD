@@ -1,9 +1,13 @@
-# Terzo video tutorial di codice-inutile
+# Quarto video tutorial di codice-inutile
 
-Questo è il codice del terzo video tutorial di Codice Inutile
-**This is the source code of the third video tutorial realized for Codice Inutile**
+Questo è il codice del quarto video tutorial di Codice Inutile
+**This is the source code of the fourth video tutorial realized for Codice Inutile**
 
-[Youtube video](https://www.youtube.com/watch?v=kTwHuMrTOKg)
+Per riuscire a mantenere una durata accettabile del video questo tutorial è diviso in due parti, A e B.
+**To get an acceptable video length this video is splitted in two parts A and B
+
+[Youtube video A](https://www.youtube.com/watch?v=dfs)
+[Youtube video B](https://www.youtube.com/watch?v=dsf)
 
 Una volta clonato il repository aprire un terminale nella cartella ed eseguire
 **Once cloned the repoisitory run**
