@@ -6,8 +6,8 @@ Questo è il codice del quarto video tutorial di Codice Inutile
 Per riuscire a mantenere una durata accettabile del video questo tutorial è diviso in due parti, A e B.
 **To get an acceptable video length this video is splitted in two parts A and B
 
-[Youtube video A](https://www.youtube.com/watch?v=dfs)
-[Youtube video B](https://www.youtube.com/watch?v=dsf)
+[Youtube video A](https://www.youtube.com/watch?v=krmRnCniJb4)
+[Youtube video B](https://www.youtube.com/watch?v=B8Phmehgp9k)
 
 Una volta clonato il repository aprire un terminale nella cartella ed eseguire
 **Once cloned the repoisitory run**
@@ -23,6 +23,7 @@ Per far partire il webserver locale eseguire
 npm run dev
 ```
 
-![preview](https://i.imgur.com/xlT5bzI.png)
+![preview](https://i.imgur.com/qan0tQ6.jpg)
+![preview](https://i.imgur.com/qOn48LF.jpg)
 
 https://www.codiceinutile.org/
