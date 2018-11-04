@@ -10,7 +10,7 @@ export default class BasicScene {
     this.scene = new THREE.Scene();
     this.camera = this.GetCamera();
 
-    this.camera.position.z = 50;
+    this.camera.position.z = 10;
 
     const renderObject = this.GetRenderer();
     this.clearColor = renderObject.clearColor;
@@ -24,7 +24,7 @@ export default class BasicScene {
 
   GetCamera() {
     const aspectRatio = window.innerWidth / window.innerHeight;
-    const camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 100);
+    const camera = new THREE.PerspectiveCamera(65, aspectRatio, 1, 100);
     return camera;
   }
 
