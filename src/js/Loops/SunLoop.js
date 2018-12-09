@@ -26,7 +26,7 @@ export default class CubeLoop {
 
         this.cubes = [];
 
-        const slideCount = 250;
+        const slideCount = 15;
         const piCount = Math.PI / slideCount * 0.5;
 
         this.cubesParent = new THREE.Group();
@@ -60,7 +60,8 @@ export default class CubeLoop {
             const newRot = child.rotation;
             newRot.setFromVector3( new THREE.Vector3(
                 0,
-                ( Math.sin((i*Math.PI*0.25)+animationTime) * Math.PI * 0.02 ) * Math.sin(timeElapsed * 0.2),
+                ( Math.sin((i*Math.PI*0.15) + animationTime) * Math.PI * 0.07 ) *
+                ( Math.sin((i*Math.PI*0.14) + animationTime) * Math.PI * 0.07 ),
                 0
             ));
             child.rotation.copy(newRot);
