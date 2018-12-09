@@ -3,6 +3,7 @@ import './index.css';
 const CubeLoop = 'CubeLoop.js';
 const GridLoop = 'GridLoop.js';
 const SkyscrapersLoop = 'SkyscrapersLoop.js';
+const SunLoop = 'SunLoop.js';
 
 class App {
     constructor() {
@@ -14,7 +15,7 @@ class App {
         this.AddCloseRendererToMenu();
         this.PopulateMenu();
         this.CreateOpenMenuButton();
-        //this.StartLoop( this.loops[this.loops.length - 1] );
+        this.StartLoop( this.loops[this.loops.length - 1] );
     }
 
     CreateMenu() {
@@ -35,6 +36,7 @@ class App {
         this.loops.push(this.AddLoopButton('Cube Loop', CubeLoop));
         this.loops.push(this.AddLoopButton('Grid Loop 0', GridLoop));
         this.loops.push(this.AddLoopButton('Skyscrapers', SkyscrapersLoop));
+        this.loops.push(this.AddLoopButton('Sun Loop', SunLoop));
     }
 
     AddLoopButton(text, loop) {
