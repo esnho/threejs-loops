@@ -5,8 +5,8 @@ import BasicSphere from '../Objects/BasicSphere.js';
 require('typeface-vt323');
 
 export default class SkyscrapersLoop {
-    constructor(basicScene) {
-        this.scene = basicScene;
+    constructor({scene, onLoad}) {
+        this.scene = scene;
 
         this.editScene();
 
@@ -22,6 +22,8 @@ export default class SkyscrapersLoop {
         this.addGround();
 
         this.addWhereAreYou();
+
+        if (onLoad) onLoad();
     }
 
     editScene() {

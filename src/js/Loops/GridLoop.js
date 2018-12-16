@@ -3,12 +3,12 @@ import Lights from '../Lights/MagentaParty.js';
 import BasicCube from '../Objects/BasicCube.js';
 
 export default class CubeLoop {
-    constructor(basicScene) {
+    constructor({scene, onLoad}) {
         const frustumSize = 7;
-        const aspect = basicScene.camera.aspect;
-        this.scene = basicScene;
+        const aspect = scene.camera.aspect;
+        this.scene = scene;
 
-        basicScene.camera = new THREE.OrthographicCamera(
+        scene.camera = new THREE.OrthographicCamera(
             frustumSize * aspect / - 2,
             frustumSize * aspect / 2,
             frustumSize / 2,
@@ -16,8 +16,8 @@ export default class CubeLoop {
             0.1,
             150
         );
-        basicScene.camera.position.copy(new THREE.Vector3(10, 10, 10));
-        basicScene.camera.lookAt(new THREE.Vector3(0, 0, 0));
+        scene.camera.position.copy(new THREE.Vector3(10, 10, 10));
+        scene.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
         this.root = new THREE.Group();
 
@@ -49,6 +49,8 @@ export default class CubeLoop {
         }
         
         this.root.add(this.cubesParent);
+
+        if (onLoad) onLoad();
     }
     
 

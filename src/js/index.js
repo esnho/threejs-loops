@@ -4,6 +4,7 @@ const CubeLoop = 'CubeLoop.js';
 const GridLoop = 'GridLoop.js';
 const SkyscrapersLoop = 'SkyscrapersLoop.js';
 const SunLoop = 'SunLoop.js';
+const FloatingBio = 'FloatingBio.js';
 
 class App {
     constructor() {
@@ -15,7 +16,7 @@ class App {
         this.AddCloseRendererToMenu();
         this.PopulateMenu();
         this.CreateOpenMenuButton();
-        this.StartLoop( this.loops[this.loops.length - 1] );
+        // this.StartLoop( this.loops[this.loops.length - 1] );
     }
 
     CreateMenu() {
@@ -37,6 +38,7 @@ class App {
         this.loops.push(this.AddLoopButton('Grid Loop 0', GridLoop));
         this.loops.push(this.AddLoopButton('Skyscrapers', SkyscrapersLoop));
         this.loops.push(this.AddLoopButton('Sun Loop', SunLoop));
+        this.loops.push(this.AddLoopButton('Floating Bio', FloatingBio));
     }
 
     AddLoopButton(text, loop) {
@@ -56,12 +58,28 @@ class App {
 
     StartLoop(targetButton) {
         this.SelectMenuVoice(targetButton);
+        console.log("starting loop");
+        this.StartLoading();
         import(
             /* webpackChunkName: '[request]' */
             './Loops/'+ targetButton.getAttribute('loopname') )
         .then(({default: newloop}) => {
             this.InstantiateLoop(newloop);
         });
+    }
+
+    StartLoading() {        
+        if (!this.loading) {
+            this.loading = document.createElement('div');
+            this.loading.className = 'loading';
+            document.body.append(this.loading);
+        }
+    }
+
+    StopLoading() {
+        if (!this.loading) return;
+        this.loading.remove();
+        this.loading = null;
     }
 
     SelectMenuVoice(selectedVoice) {
@@ -79,9 +97,12 @@ class App {
         .then((module) => {
             this.basicScene = new module.default();
             this.basicScene.InitScene();
-            this.loop = new loop(this.basicScene);
+            this.loop = new loop({
+                scene: this.basicScene,
+                onLoad: () => this.StopLoading()
+            });
             this.basicScene.Add(this.loop);
-        });
+        })
     }
 
     CreateOpenMenuButton() {

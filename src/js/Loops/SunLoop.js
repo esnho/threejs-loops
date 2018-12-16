@@ -2,15 +2,15 @@ import * as THREE from 'three';
 import Lights from '../Lights/MagentaParty.js';
 import BasicCube from '../Objects/BasicCube.js';
 
-export default class CubeLoop {
-    constructor(basicScene) {
+export default class SunLoop {
+    constructor({scene, onLoad}) {
         const sunSize = 35;
 
-        this.scene = basicScene;
+        this.scene = scene;
 
-        basicScene.camera.position.copy(new THREE.Vector3(0, 0, 10));
-        basicScene.camera.lookAt(new THREE.Vector3(0, 0, 0));
-        basicScene.camera.far = 150;
+        scene.camera.position.copy(new THREE.Vector3(0, 0, 10));
+        scene.camera.lookAt(new THREE.Vector3(0, 0, 0));
+        scene.camera.far = 150;
         this.scene.camera.updateProjectionMatrix();
 
         this.root = new THREE.Group();
@@ -49,6 +49,8 @@ export default class CubeLoop {
         }
         
         this.root.add(this.cubesParent);
+
+        if (onLoad) onLoad();
     }
     
 

@@ -3,15 +3,15 @@ import Lights from '../Lights/BlueParty.js';
 import BasicCube from '../Objects/BasicCube.js';
 
 export default class CubeLoop {
-  constructor(basicScene) {
+  constructor({scene, onLoad}) {
     const clearColor = new THREE.Color();
     clearColor.setIntHSL(48, 90, 64);
-    basicScene.renderer.setClearColor(clearColor);
+    scene.renderer.setClearColor(clearColor);
 
     const frustumSize = 10;
-    const aspect = basicScene.camera.aspect;
+    const aspect = scene.camera.aspect;
 
-    basicScene.camera = new THREE.OrthographicCamera(
+    scene.camera = new THREE.OrthographicCamera(
         frustumSize * aspect / - 2,
         frustumSize * aspect / 2,
         frustumSize / 2,
@@ -19,8 +19,8 @@ export default class CubeLoop {
         1,
         150
     );
-    basicScene.camera.position.copy(new THREE.Vector3(-10, 10, 10));
-    basicScene.camera.lookAt(new THREE.Vector3(0, 0, 0));
+    scene.camera.position.copy(new THREE.Vector3(-10, 10, 10));
+    scene.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     this.root = new THREE.Group();
 
@@ -81,6 +81,8 @@ export default class CubeLoop {
     }
     this.cubesParent.position.copy(new THREE.Vector3(1, -1, -1));
     this.root.add(this.cubesParent);
+
+    if (onLoad) onLoad();
   }
 
   update(timeElapsed) {
