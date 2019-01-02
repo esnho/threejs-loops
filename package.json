@@ -6,6 +6,8 @@
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "dat.gui": "^0.7.1",
+    "glslify-loader": "^2.0.0",
+    "raw-loader": "^1.0.0",
     "three": "^0.88.0",
     "three-orbit-controls": "^82.1.0",
     "typeface-vt323": "0.0.54"
