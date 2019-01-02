@@ -5,6 +5,7 @@ const GridLoop = 'GridLoop.js';
 const SkyscrapersLoop = 'SkyscrapersLoop.js';
 const SunLoop = 'SunLoop.js';
 const FloatingBio = 'FloatingBio.js';
+const MorphingSphere = 'MorphingSphere.js';
 
 class App {
     constructor() {
@@ -16,7 +17,7 @@ class App {
         this.AddCloseRendererToMenu();
         this.PopulateMenu();
         this.CreateOpenMenuButton();
-        // this.StartLoop( this.loops[this.loops.length - 1] );
+        /* this.StartLoop( this.loops[0] ); */
     }
 
     CreateMenu() {
@@ -39,6 +40,7 @@ class App {
         this.loops.push(this.AddLoopButton('Skyscrapers', SkyscrapersLoop));
         this.loops.push(this.AddLoopButton('Sun Loop', SunLoop));
         this.loops.push(this.AddLoopButton('Floating Bio', FloatingBio));
+        this.loops.push(this.AddLoopButton('Morphing Sphere', MorphingSphere));
     }
 
     AddLoopButton(text, loop) {
