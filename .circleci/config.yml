@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run: npm install
       - run: ls -l
-      - run: ls -l src/js/Helpers
+      - run: ls -l src/js/
       - run: npm run build
       - run: npm run deploy
 workflows:
