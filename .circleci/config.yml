@@ -6,6 +6,8 @@ jobs:
     steps:
       - checkout
       - run: npm install
+      - run: ls -a
+      - run: ls src/js/Objects
       - run: npm run build
       - run: npm run deploy
 workflows:
