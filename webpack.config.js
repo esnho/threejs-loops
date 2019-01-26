@@ -11,7 +11,9 @@ var src             = './src',
     templates       = path.join(__dirname, src+'/index.html');
 
 module.exports = {
-    entry: entry,
+    entry: {
+      idex: entry
+    },
     output: {
         path: output,
         chunkFilename: './js/[name].bundle.js',
@@ -26,7 +28,7 @@ module.exports = {
               loader: 'babel-loader',
               options: {
                 presets: ['@babel/preset-env'],
-                plugins: ["dynamic-import-node"]
+                plugins: ['@babel/plugin-syntax-dynamic-import']
               }
             }
           },
@@ -56,6 +58,9 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     plugins: [
-        new HtmlWebpackPlugin({template: templates, filename: "./index.html"})
+        new HtmlWebpackPlugin({
+          template: templates,
+          filename: "./index.html"
+        })
     ]
 };
