@@ -1,20 +1,19 @@
 version: 2
 jobs:
-  build:
+  build-and-deploy:
     docker:
       - image: circleci/node:8
     steps:
       - checkout
       - run: npm install
-  test:
-    docker:
-      - image: circleci/node:8
-    steps:
-      - checkout
-      - run: echo hello-test
+      - run: npm build
+      - run: npm deploy
 workflows:
   version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
-      - build
-      - test
+      - build-and-deploy:
+          filters:
+                branches:
+                  only:
+                    - master
