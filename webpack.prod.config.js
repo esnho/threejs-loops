@@ -4,7 +4,10 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 config.mode = 'production';
 
 config.plugins.push(
-  new BundleAnalyzerPlugin()
+  new BundleAnalyzerPlugin({
+    openAnalyzer: false,
+    analyzerMode: 'static'
+  })
 );
 
 config.optimization = {
