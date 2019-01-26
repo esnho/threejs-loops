@@ -6,8 +6,8 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm build
-      - run: npm deploy
+      - run: npm run build
+      - run: npm run deploy
 workflows:
   version: 2
   build_and_deploy:
