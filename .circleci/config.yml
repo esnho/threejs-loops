@@ -5,6 +5,8 @@ jobs:
       - image: circleci/node:8.12
     steps:
       - checkout
+      - run: git fetch
+      - run: git pull
       - run: npm install
       - run: ls -a
       - run: ls src/js/Objects
