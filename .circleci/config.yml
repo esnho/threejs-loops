@@ -6,9 +6,9 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: ls -l
-      - run: ls -l src/js/
       - run: npm run build
+      - run: git config --global user.email circleci@circleci
+      - run: git config --global user.name CircleCI
       - run: npm run deploy
 workflows:
   version: 2
