@@ -64,7 +64,7 @@ class App {
         this.StartLoading();
         import(
             /* webpackChunkName: '[request]' */
-            './Loops/'+ targetButton.getAttribute('loopname') )
+            `./Loops/${targetButton.getAttribute('loopname')}`)
         .then(({default: newloop}) => {
             this.InstantiateLoop(newloop);
         });
