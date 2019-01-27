@@ -6,6 +6,7 @@ const SkyscrapersLoop = 'SkyscrapersLoop.js';
 const SunLoop = 'SunLoop.js';
 const FloatingBio = 'FloatingBio.js';
 const MorphingSphere = 'MorphingSphere.js';
+const Lissajoux = 'Lissajoux.js';
 
 class App {
     constructor() {
@@ -41,6 +42,7 @@ class App {
         this.loops.push(this.AddLoopButton('Sun Loop', SunLoop));
         this.loops.push(this.AddLoopButton('Floating Bio', FloatingBio));
         this.loops.push(this.AddLoopButton('Morphing Sphere', MorphingSphere));
+        this.loops.push(this.AddLoopButton('Lissajoux', Lissajoux));
     }
 
     AddLoopButton(text, loop) {
