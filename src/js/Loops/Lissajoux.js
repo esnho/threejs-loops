@@ -23,7 +23,8 @@ export default class Lissajoux {
 
     this.root = new THREE.Group();
 
-    this.lissaRatio = Math.random();
+    this.lissaRatio = 0.9968; // magic number :(
+    console.log(this.lissaRatio)
     this.lissaCount = 600;
     
     const geometry = new THREE.Geometry();
@@ -32,30 +33,32 @@ export default class Lissajoux {
       geometry.vertices.push( v );
     }
     
-    this.line = new MeshLine();
-    this.line.setGeometry( geometry );
+    this.lineGeometry = new MeshLine();
+    this.lineGeometry.setGeometry( geometry );
     
     const material = new MeshLineMaterial( {
       color: new THREE.Color('#7c6bd2'),
       sizeAttenuation: 0,
-      lineWidth: 0.0001
+      lineWidth: 0.001
     });
 
-    const mesh = new THREE.Mesh( this.line.geometry, material );
-    this.root.add( mesh );
+    this.lineMesh = new THREE.Mesh( this.lineGeometry.geometry, material );
+    this.root.add( this.lineMesh );
 
     if (onLoad) onLoad();
   }
 
-  update(timeElapsed) {
-    const animationTime = timeElapsed * 0.9;
+  update(timeElapsed, delta) {
+    const animationTime = timeElapsed * 0.3;
 
     const geometry = new THREE.Geometry();
     for( let j = 0; j < this.lissaCount; j++ ) {
-      const v = new THREE.Vector3( Math.cos( j + animationTime ) * 5, Math.cos( (j + animationTime) * this.lissaRatio ) * 5, 0 );
+      const v = new THREE.Vector3( Math.cos( j + animationTime ) * 3.8, Math.cos( (j + animationTime) * this.lissaRatio ) * 3.8,  Math.cos( (j + animationTime) * this.lissaRatio * this.lissaRatio ) * 3.8 );
       geometry.vertices.push( v );
     }
-    this.line.setGeometry( geometry );
+    this.lineGeometry.setGeometry( geometry );
+    this.lineMesh.rotateY(0.2 * delta);
+    this.lineMesh.rotateX(0.09 * delta);
   }
 
 }

@@ -22,6 +22,7 @@ export default class BasicScene {
 
     this.renderer.render(this.scene, this.camera);
 
+    this.oldTime = this.clock.getElapsedTime();
     this.Update();
   }
 
@@ -79,8 +80,10 @@ export default class BasicScene {
 
   Update() {
     const timeElapsed = this.clock.getElapsedTime();
+    const delta = timeElapsed - this.oldTime;
+    this.oldTime = timeElapsed;
     for (let updatable of this.updatables) {
-      updatable.update(timeElapsed);
+      updatable.update(timeElapsed, delta);
     }
     this.renderer.render(this.scene, this.camera);
     this.animationFrame = requestAnimationFrame(() => this.Update());
