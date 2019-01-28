@@ -24,7 +24,6 @@ export default class Lissajoux {
     this.root = new THREE.Group();
 
     this.lissaRatio = 0.9968; // magic number :(
-    console.log(this.lissaRatio)
     this.lissaCount = 600;
     
     const geometry = new THREE.Geometry();
@@ -38,8 +37,8 @@ export default class Lissajoux {
     
     const material = new MeshLineMaterial( {
       color: new THREE.Color('#7c6bd2'),
-      sizeAttenuation: 0,
-      lineWidth: 0.001
+      sizeAttenuation: 1,
+      lineWidth: 0.003
     });
 
     this.lineMesh = new THREE.Mesh( this.lineGeometry.geometry, material );
