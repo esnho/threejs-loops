@@ -1,10 +1,13 @@
-import * as THREE from 'three';
+import {
+	Group,
+	HemisphereLight
+} from 'three';
 
-export default class WhiteHemi extends THREE.Group {
+export default class WhiteHemi extends Group {
   constructor() {
     super();
 
-    const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 3.0 );
+    const hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 3.0 );
 		hemiLight.color.setHSL(
 			Math.NormalizeHue(325), 
 			0.1,

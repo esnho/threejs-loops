@@ -1,10 +1,16 @@
-import * as THREE from 'three';
+import {
+  Group,
+	HemisphereLight,
+	AmbientLight,
+	PointLight,
+	Vector3
+} from 'three';
 
-export default class Ligths extends THREE.Group {
+export default class Ligths extends Group {
   constructor() {
     super();
 
-    const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1.5 );
+    const hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 1.5 );
 		hemiLight.color.setHSL(
 			NormalizeH(186), 
 			0.97, 
@@ -23,7 +29,7 @@ export default class Ligths extends THREE.Group {
 		hemiLight.position.set( 0, 2, 0 );
 		this.add( hemiLight );
 
-		const ambient = new THREE.AmbientLight( 0x756666 );
+		const ambient = new AmbientLight( 0x756666 );
 		ambient.color.setHSL(
 			NormalizeH(186), 
 			0.97, 
@@ -31,15 +37,15 @@ export default class Ligths extends THREE.Group {
 		);
 		//this.add( ambient );
 
-		this.pointLightA = new THREE.PointLight( 0xf7fc9a, 0.7 );
-    this.pointLightA.position.copy(new THREE.Vector3(6, 3, 0));
+		this.pointLightA = new PointLight( 0xf7fc9a, 0.7 );
+    this.pointLightA.position.copy(new Vector3(6, 3, 0));
 		//this.add( this.pointLightA );
 
-		this.pointLightB = new THREE.PointLight( 0xf7fc9a, 0.4 );
-    this.pointLightB.position.copy(new THREE.Vector3(0, -2, -9));
+		this.pointLightB = new PointLight( 0xf7fc9a, 0.4 );
+    this.pointLightB.position.copy(new Vector3(0, -2, -9));
 		//this.add( this.pointLightB );
 		
-		/* this.pointLightHelper = new THREE.PointLightHelper(this.pointLightB, 2);
+		/* this.pointLightHelper = new PointLightHelper(this.pointLightB, 2);
 		this.add(this.pointLightHelper); */
 	}
 }

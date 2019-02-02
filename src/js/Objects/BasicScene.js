@@ -1,4 +1,10 @@
-import * as THREE from 'three';
+import {
+  Clock,
+  Scene,
+  PerspectiveCamera,
+  Color,
+  WebGLRenderer
+} from 'three';
 import '../Helpers/Math.js';
 import '../Helpers/THREE-extensions.js';
 
@@ -6,11 +12,13 @@ export default class BasicScene {
   constructor() {
     this.updatables = [];
     this.objects = [];
-    this.clock = new THREE.Clock();
+    this.clock = new Clock();
+    this.InitScene = this.InitScene.bind(this);
+    this.Resize = this.Resize.bind(this);
   }
 
   InitScene() {
-    this.scene = new THREE.Scene();
+    this.scene = new Scene();
     this.camera = this.GetCamera();
 
     this.camera.position.z = 10;
@@ -24,6 +32,7 @@ export default class BasicScene {
 
     this.oldTime = this.clock.getElapsedTime();
     this.Update();
+    window.addEventListener('resize', this.Resize);
   }
 
   Destroy() {
@@ -33,19 +42,20 @@ export default class BasicScene {
     this.camera = null;
     this.renderer = null;
     this.canvas.remove();
+    window.removeEventListener('resize', this.Resize);
   }
 
   GetCamera() {
     const aspectRatio = window.innerWidth / window.innerHeight;
-    const camera = new THREE.PerspectiveCamera(65, aspectRatio, 1, 100);
+    const camera = new PerspectiveCamera(65, aspectRatio, 1, 100);
     return camera;
   }
 
   GetRenderer() {
-    const clearColor = new THREE.Color();
+    const clearColor = new Color();
     clearColor.setRGB(0.1, 0.1, 0.1);
 
-    const renderer = new THREE.WebGLRenderer({
+    const renderer = new WebGLRenderer({
       antialias: true
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -66,6 +76,8 @@ export default class BasicScene {
     object.OnDie = () => {
       this.Remove(object);
     };
+    console.log(this.camera);
+    
   }
 
   Remove(object) {
@@ -87,5 +99,19 @@ export default class BasicScene {
     }
     this.renderer.render(this.scene, this.camera);
     this.animationFrame = requestAnimationFrame(() => this.Update());
+  }
+
+  Resize() {
+    if (this.camera.aspect) {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+    } else if (this.camera.type === 'OrthographicCamera') {
+      const aspect = window.innerWidth / window.innerHeight;
+      this.camera.left = this.camera.bottom * aspect;
+      this.camera.right = this.camera.top * aspect;
+    }
+    this.camera.updateProjectionMatrix();
+    console.log(this.camera, this.renderer);
+    
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 }

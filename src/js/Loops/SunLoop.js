@@ -1,4 +1,8 @@
-import * as THREE from 'three';
+import {
+    Vector3,
+    Group,
+    MeshStandardMaterial
+  } from 'three';
 import Lights from '../Lights/MagentaParty.js';
 import BasicCube from '../Objects/BasicCube.js';
 
@@ -8,17 +12,17 @@ export default class SunLoop {
 
         this.scene = scene;
 
-        scene.camera.position.copy(new THREE.Vector3(0, 0, 10));
-        scene.camera.lookAt(new THREE.Vector3(0, 0, 0));
+        scene.camera.position.copy(new Vector3(0, 0, 10));
+        scene.camera.lookAt(new Vector3(0, 0, 0));
         scene.camera.far = 150;
         this.scene.camera.updateProjectionMatrix();
 
-        this.root = new THREE.Group();
+        this.root = new Group();
 
         const lights = new Lights();
         this.root.add(lights);
 
-        const cubeMat = new THREE.MeshStandardMaterial({
+        const cubeMat = new MeshStandardMaterial({
             color: 0xffffff,
             metalness: 0.4,
             roughness: 0.2,
@@ -29,17 +33,17 @@ export default class SunLoop {
         const slideCount = 15;
         const piCount = Math.PI / slideCount * 0.5;
 
-        this.cubesParent = new THREE.Group();
+        this.cubesParent = new Group();
         for (let y = -slideCount; y < slideCount; y++) {
             const scaleX = Math.cos(piCount * y) * sunSize;
             const scaleY = Math.sin(piCount * y) * sunSize;
             const newCube = new BasicCube({
                 size: 1,
                 material: cubeMat,
-                position: new THREE.Vector3(0, scaleY, -60)
+                position: new Vector3(0, scaleY, -60)
             });
             newCube.root.scale.copy(
-                new THREE.Vector3(
+                new Vector3(
                     scaleX * 2,
                     piCount * 0.75 * scaleX,
                     1)
@@ -60,7 +64,7 @@ export default class SunLoop {
         for (let i = 0; i < this.cubesParent.children.length; i++) {
             const child = this.cubesParent.children[i];
             const newRot = child.rotation;
-            newRot.setFromVector3( new THREE.Vector3(
+            newRot.setFromVector3( new Vector3(
                 0,
                 ( Math.sin((i*Math.PI*0.15) + animationTime) * Math.PI * 0.07 ) *
                 ( Math.sin((i*Math.PI*0.14) + animationTime) * Math.PI * 0.07 ),

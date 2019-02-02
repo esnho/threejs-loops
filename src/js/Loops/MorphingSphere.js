@@ -1,17 +1,25 @@
-import * as THREE from 'three';
+import {
+  Vector3,
+  Color,
+  Mesh,
+  Group,
+  OrthographicCamera,
+  ShaderMaterial,
+  IcosahedronGeometry
+} from 'three';
 import noiseDisp from '../Shaders/noise-displacement.vert';
 import basicuvvies from '../Shaders/noise-view-uv.frag';
 
 export default class MorphingSphere {
   constructor({scene, onLoad}) {
-    const clearColor = new THREE.Color();
+    const clearColor = new Color();
     clearColor.setHSL(0.62, 0.9, 0.2);
     scene.renderer.setClearColor(clearColor);
 
     const frustumSize = 10;
     const aspect = scene.camera.aspect;
 
-    scene.camera = new THREE.OrthographicCamera(
+    scene.camera = new OrthographicCamera(
         frustumSize * aspect / - 2,
         frustumSize * aspect / 2,
         frustumSize / 2,
@@ -19,12 +27,12 @@ export default class MorphingSphere {
         1,
         150
     );
-    scene.camera.position.copy(new THREE.Vector3(0, 50, 50));
-    scene.camera.lookAt(new THREE.Vector3(0, 0, 0));
+    scene.camera.position.copy(new Vector3(0, 50, 50));
+    scene.camera.lookAt(new Vector3(0, 0, 0));
 
-    this.root = new THREE.Group();
+    this.root = new Group();
 
-    this.material = new THREE.ShaderMaterial( {
+    this.material = new ShaderMaterial( {
       uniforms: {
         time: {
             type: "f", 
@@ -35,8 +43,8 @@ export default class MorphingSphere {
       fragmentShader: basicuvvies
     });
 
-    const mesh = new THREE.Mesh( 
-        new THREE.IcosahedronGeometry( 3, 5 ), 
+    const mesh = new Mesh( 
+        new IcosahedronGeometry( 3, 5 ), 
         this.material 
     );
     

@@ -1,12 +1,17 @@
-import * as THREE from 'three';
+import {
+  Raycaster,
+  Vector2,
+  Plane,
+  Vector3
+} from 'three';
 
 export default class OnClickRaycaster {
   constructor(referenceCamera, referenceFrame = window) {
-    this.raycaster = new THREE.Raycaster();
-    this.mouse = new THREE.Vector2();
-    this.plane = new THREE.Plane();
-    this.planeNormal = new THREE.Vector3();
-    this.point = new THREE.Vector3();
+    this.raycaster = new Raycaster();
+    this.mouse = new Vector2();
+    this.plane = new Plane();
+    this.planeNormal = new Vector3();
+    this.point = new Vector3();
     this.distanceFromCamera = 50;
     this.camera = referenceCamera;
     this.referenceFrame = referenceFrame;

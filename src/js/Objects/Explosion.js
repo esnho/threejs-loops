@@ -1,14 +1,16 @@
 import Spark from './Spark.js';
-import * as THREE from 'three';
+import {
+  Group
+} from 'three';
 
 export default class Explosion {
   constructor(scene, point) {
     this.life = 1;
-    this.initialTime = scene.clock.getElapsedTime();
+    this.initialTime = scene.clock.getElapsedTime(); 
     this.createSpark = this.createSpark.bind(this);
     this.Sparks = [];
     this.basicScene = scene;
-    this.root = new THREE.Group();
+    this.root = new Group();
     for(let i = 0; i < 500; i++) {
       this.createSpark();
     }

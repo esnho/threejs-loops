@@ -1,4 +1,10 @@
-import * as THREE from 'three';
+import {
+    Color,
+    Vector3,
+    Group,
+    MeshStandardMaterial,
+    Fog
+  } from 'three';
 import Lights from '../Lights/MagentaParty.js';
 import BasicCylinder from '../Objects/BasicCylinder.js';
 
@@ -9,17 +15,17 @@ export default class FloatingBio {
         scene.camera.far = 350;
         this.scene.camera.updateProjectionMatrix();
             
-        const clearColor = new THREE.Color();
+        const clearColor = new Color();
         clearColor.setIntHSL(48, 90, 64);
         scene.renderer.setClearColor(clearColor);
-        scene.scene.fog = new THREE.Fog(clearColor, 0.1, 300);
+        scene.scene.fog = new Fog(clearColor, 0.1, 300);
 
-        this.root = new THREE.Group();
+        this.root = new Group();
 
         const lights = new Lights();
         this.root.add(lights);
 
-        const cubeMat = new THREE.MeshStandardMaterial({
+        const cubeMat = new MeshStandardMaterial({
             color: 0xffffff,
             metalness: 0.4,
             roughness: 0.2,
@@ -50,7 +56,7 @@ export default class FloatingBio {
         const {slices, amebaSize, material, xPosition = 0} = params;
 
         const piK = Math.PI / slices * 0.5;
-        const ameba = new THREE.Group();
+        const ameba = new Group();
         const zDistribution = -(this.scene.camera.far - amebaSize);
 
         ameba.translateZ(Math.random() * zDistribution);
@@ -60,13 +66,13 @@ export default class FloatingBio {
             const newCube = new BasicCylinder({
                 size: 1,
                 material: material,
-                position: new THREE.Vector3(
+                position: new Vector3(
                     xPosition * (ameba.position.z / (amebaSize * 3)),
                     scaleY,
                     0
                 )
             });
-            newCube.root.scale.copy(new THREE.Vector3(
+            newCube.root.scale.copy(new Vector3(
                 scaleX * 0.7,
                 piK * 0.6 * scaleX,
                 scaleX * 0.7
@@ -108,12 +114,12 @@ export default class FloatingBio {
 
     updateCamera(timeElapsed) {
         this.scene.camera.position.copy(
-            new THREE.Vector3(
+            new Vector3(
                 0,
                 (Math.cos(timeElapsed) * 14),
                 10)
             );
-        this.scene.camera.lookAt(new THREE.Vector3(0, 0, -60));
+        this.scene.camera.lookAt(new Vector3(0, 0, -60));
         
         this.scene.camera.updateProjectionMatrix();
     }

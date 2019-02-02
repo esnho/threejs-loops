@@ -1,7 +1,7 @@
-import * as THREE from 'three';
+import { Color } from 'three';
 
-THREE.Color.prototype.setIntHSL = function(h, s, l) {
-    THREE.Color.prototype.setHSL(
+Color.prototype.setIntHSL = function(h, s, l) {
+    Color.prototype.setHSL(
       h/360.0,
       s/100.0,
       l/100.0
