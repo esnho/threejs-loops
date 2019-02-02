@@ -76,7 +76,6 @@ export default class BasicScene {
     object.OnDie = () => {
       this.Remove(object);
     };
-    console.log(this.camera);
     
   }
 
@@ -110,7 +109,6 @@ export default class BasicScene {
       this.camera.right = this.camera.top * aspect;
     }
     this.camera.updateProjectionMatrix();
-    console.log(this.camera, this.renderer);
     
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
