@@ -7,8 +7,10 @@ import {
 } from 'three';
 
 export default class Ligths extends Group {
-  constructor() {
-    super();
+  constructor(...args) {
+		super(...args);
+		const {intensity} = args[0];
+		this.intensity = intensity || 1;
 
     const hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 1.5 );
 		hemiLight.color.setHSL(
@@ -37,11 +39,11 @@ export default class Ligths extends Group {
 		);
 		//this.add( ambient );
 
-		this.pointLightA = new PointLight( 0xf7fc9a, 0.7 );
+		this.pointLightA = new PointLight( 0xf7fc9a, 0.7 * this.intensity );
     this.pointLightA.position.copy(new Vector3(6, 3, 0));
 		//this.add( this.pointLightA );
 
-		this.pointLightB = new PointLight( 0xf7fc9a, 0.4 );
+		this.pointLightB = new PointLight( 0xf7fc9a, 0.4 * this.intensity );
     this.pointLightB.position.copy(new Vector3(0, -2, -9));
 		//this.add( this.pointLightB );
 		

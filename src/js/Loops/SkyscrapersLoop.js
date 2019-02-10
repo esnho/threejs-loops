@@ -7,7 +7,8 @@ import {
     MeshStandardMaterial,
     MeshBasicMaterial
   } from 'three';
-import Lights from '../Lights/TwoDirectionals.js';
+import TwoDirectionals from '../Lights/TwoDirectionals.js';
+import WhiteHemi from '../Lights/WhiteHemi.js';
 import BasicCube from '../Objects/BasicCube.js';
 import BasicSphere from '../Objects/BasicSphere.js';
 require('typeface-vt323');
@@ -20,8 +21,7 @@ export default class SkyscrapersLoop {
 
         this.root = new Group();
 
-        const lights = new Lights();
-        this.root.add(lights);
+        this.addLights();
 
         this.addSkyscrapers();
 
@@ -32,6 +32,13 @@ export default class SkyscrapersLoop {
         this.addWhereAreYou();
 
         if (onLoad) onLoad();
+    }
+
+    addLights() {
+        const directionals = new TwoDirectionals();
+        this.root.add(directionals);
+        const hemi = new WhiteHemi();
+        this.root.add(hemi);
     }
 
     editScene() {

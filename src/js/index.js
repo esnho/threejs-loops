@@ -7,6 +7,7 @@ const SunLoop = 'SunLoop.js';
 const FloatingBio = 'FloatingBio.js';
 const MorphingSphere = 'MorphingSphere.js';
 const Lissajoux = 'Lissajoux.js';
+const OpenHead = 'OpenHead.js';
 
 class App {
     constructor() {
@@ -43,6 +44,7 @@ class App {
         this.loops.push(this.AddLoopButton('Floating Bio', FloatingBio));
         this.loops.push(this.AddLoopButton('Morphing Sphere', MorphingSphere));
         this.loops.push(this.AddLoopButton('Lissajoux', Lissajoux));
+        this.loops.push(this.AddLoopButton('Open Head', OpenHead));
     }
 
     AddLoopButton(text, loop) {

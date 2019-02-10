@@ -18,10 +18,10 @@ export default class CubeLoop {
     const aspect = scene.camera.aspect;
 
     scene.camera = new OrthographicCamera(
-        frustumSize * aspect / - 2,
+        frustumSize * aspect / -2,
         frustumSize * aspect / 2,
         frustumSize / 2,
-        frustumSize / - 2,
+        frustumSize / -2,
         1,
         150
     );

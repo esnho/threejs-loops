@@ -7,7 +7,15 @@ import {
 } from 'three';
 
 export default class BasicSphere {
-  constructor({size = 5, material, position, widthSegments, heightSegments}) {
+  constructor({
+    size = 5,
+    material,
+    position,
+    widthSegments,
+    heightSegments,
+    castShadow,
+    receiveShadow
+  }) {
     this.seed = Math.random();
     const color = {r:1 ,g:1, b:1};
     this.color = new Color();
@@ -17,14 +25,14 @@ export default class BasicSphere {
       color: this.color
     });
     
-    const Sphere = material.length > 1 ? SphereBufferGeometry : SphereGeometry;
+    const Sphere = this.material.length > 1 ? SphereBufferGeometry : SphereGeometry;
 
     this.geometry = new Sphere(
       size, 
       widthSegments || 7, 
       heightSegments || 9);
     
-    if (material.length) {
+    if (this.material.length) {
       this.geometry.clearGroups();
       for (let i = 0; i < material.length; i++) {
         this.geometry.addGroup( 0, Infinity, i );
@@ -35,6 +43,9 @@ export default class BasicSphere {
       this.geometry,
       this.material
     );
+
+    this.mesh.castShadow = castShadow;
+    this.mesh.receiveShadow = receiveShadow;
 
     if (position) {
       this.mesh.position.copy(position);

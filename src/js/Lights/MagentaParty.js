@@ -3,11 +3,23 @@ import {
 	HemisphereLight
 } from 'three';
 
-export default class MagentaParty extends Group {
-  constructor() {
-    super();
+const defaultParams = {
+    intensity: 1
+}
 
-    const hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 1.5 );
+export default class MagentaParty extends Group {
+	constructor(...args) {
+		super(...args);
+		this.params = {
+			...defaultParams,
+			...args[0]
+		};
+
+    const hemiLight = new HemisphereLight(
+			0xffffff,
+			0xffffff,
+			1.5 * this.params.intensity
+		);
 		hemiLight.color.setHSL(
 			NormalizeH(325), 
 			0.9,

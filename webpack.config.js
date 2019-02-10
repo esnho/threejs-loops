@@ -53,6 +53,10 @@ module.exports = {
               'raw-loader',
               'glslify-loader'
             ]
+          },
+          {
+            test: /\.obj$/,
+            loader: 'file-loader'
           }
         ]
     },
