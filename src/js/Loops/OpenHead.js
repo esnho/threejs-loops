@@ -48,12 +48,12 @@ export default class Lissajoux {
 
   loading(percentage) {    
     this.loadingCube.root.scale.copy(
-      new THREE.Vector3(1, percentage, 1)
+      new THREE.Vector3(1, 1 - percentage, 1)
     );
 
     this.loadingCube.root.position.copy(
       new THREE.Vector3(0,
-        -0.5 * this.loadingCube.root.geometry.parameters.height * (1 - percentage),
+        -0.5 * this.loadingCube.root.geometry.parameters.height * (percentage),
         0)
     )
 
