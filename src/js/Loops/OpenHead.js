@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import head from '../../obj/male.obj';
 import Lights from '../Lights/TwoDirectionals';
 import BasicSphere from '../Objects/BasicSphere';
+import BasicCube from '../Objects/BasicCube';
 import * as OBJLoader from 'three-obj-loader';
 OBJLoader(THREE);
 
@@ -15,6 +16,27 @@ export default class Lissajoux {
 
     this.root = new THREE.Group();
 
+    this.wireMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      wireframe: true
+    });
+
+    const loadingCubeMat = 
+      new THREE.MeshStandardMaterial({
+        emissive: 0x5e0311,
+        flatShading: true
+      })
+    ;
+
+    this.loadingCube = new BasicCube({
+      size:6,
+      material: loadingCubeMat,
+    });
+
+    this.root.add(this.loadingCube.root);
+
+    this.loading(0.5);
+
     this.setupLights();
 
     this.createSpheres();
@@ -22,6 +44,22 @@ export default class Lissajoux {
     this.loadHead();
 
     if (onLoad) onLoad();
+  }
+
+  loading(percentage) {    
+    this.loadingCube.root.scale.copy(
+      new THREE.Vector3(1, percentage, 1)
+    );
+
+    this.loadingCube.root.position.copy(
+      new THREE.Vector3(0,
+        -0.5 * this.loadingCube.root.geometry.parameters.height * (1 - percentage),
+        0)
+    )
+
+    var quaternion = new THREE.Quaternion();
+    quaternion.setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), (Math.PI * -2) * percentage );
+    this.loadingCube.root.quaternion.copy(quaternion)
   }
 
   setupLights() {
@@ -51,23 +89,19 @@ export default class Lissajoux {
   }
 
   createSpheres() {
-    const wireMat = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true
-    });
     const sphereMat = [
       new THREE.MeshStandardMaterial({
         flatShading: true,
         roughness: 0
       }),
-      wireMat
+      this.wireMat
     ];
     const sphereMat2 = [
       new THREE.MeshStandardMaterial({
         emissive: 0x5e0311,
         flatShading: true
       }),
-      wireMat
+      this.wireMat
     ];
     this.spheres = new THREE.Group();
     this.sphereA = new BasicSphere({
@@ -118,6 +152,7 @@ export default class Lissajoux {
   loadHead() {
     const loader = new THREE.OBJLoader();
     this.onHeadReady = this.onHeadReady.bind(this);
+    this.onHeadLoading = this.onHeadLoading.bind(this);
     loader.load(
       head,
       this.onHeadReady,
@@ -128,10 +163,16 @@ export default class Lissajoux {
   }
 
   onHeadLoading(xhr) {
-    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    const loading = xhr.loaded / xhr.total;
+    console.log((loading * 100) + '% loaded');
+    
+    this.loading(Math.sin(loading));
   }
 
   onHeadReady(object) {
+    this.root.remove( this.loadingCube.root );
+    this.loadingCube = null;
+    
     object.scale.copy(new THREE.Vector3(0.2, 0.2, 0.2));
     object.traverse((obj) => {
       obj.receiveShadow = true;
