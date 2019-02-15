@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import tree from '../../obj/Lowpoly_tree_sample.obj';
 import Lights from '../Lights/TwoDirectionals';
+import BasicSphere from '../Objects/BasicSphere';
 import * as OBJLoader from 'three-obj-loader';
 OBJLoader(THREE);
 
@@ -17,6 +18,25 @@ export default class TreeExample {
     this.loadTree();
     this.setupLights();
 
+    const sphereMaterial = new THREE.MeshStandardMaterial({
+      emissive: 0x5e0311,
+      flatShading: true
+    });
+
+    this.sphere = new BasicSphere({
+      size: 6,
+      material: sphereMaterial,
+      widthSegments: 8,
+      heightSegments: 6,
+      receiveShadow: true
+    });
+
+    this.sphere.root.rotateX(26 * (Math.PI / 180))
+
+    console.log(this.sphere.root.geometry)
+
+    this.root.add(this.sphere.root);
+
     if (onLoad) onLoad();
   }
 
@@ -29,7 +49,7 @@ export default class TreeExample {
       intensity: 1.8,
       castShadow: true,
       bias: 0.00002,
-      projectionSides: 2.5,
+      projectionSides: 6.5,
       mapSize: 2048
     });
     lights.rotateY(Math.PI);
@@ -37,16 +57,7 @@ export default class TreeExample {
   }
 
   setupCamera() {
-    const frustumSize = 10;
-    const aspect = this.scene.camera.aspect;
-    this.scene.camera = new THREE.OrthographicCamera(
-      frustumSize * aspect / -2,
-      frustumSize * aspect / 2,
-      frustumSize / 2,
-      frustumSize / -2,
-      1,
-      150);
-    this.scene.camera.position.copy(new THREE.Vector3(0, 3.5, 10));
+    this.scene.camera.position.copy(new THREE.Vector3(0, 4.5, 18));
     this.scene.camera.lookAt(new THREE.Vector3(0, 0, 0));
   }
 
@@ -72,31 +83,47 @@ export default class TreeExample {
   }
 
   onTreeReady(object) {
-    for(let i = 0; i < 10; i++) {
-      const newPosition = new THREE.Vector3(i * 3, 0, 0);
-      this.addTree(object, newPosition);
+    object.traverse((obj) => {
+      obj.castShadow = true;
+      obj.receiveShadow = true;
+    });
+
+    for(let i = 0; i < this.sphere.root.geometry.vertices.length; i++) {
+      console.log(this.sphere.root.geometry.vertices[i]);
+      
+      this.addTree(object, this.sphere.root.geometry.vertices[i], 0.1);
     }
   }
 
-  addTree(object, newPosition) {
+  addTree(object, newPosition, scale) {
     const newTree = object.clone();
+    // set position
     newTree.position.copy(newPosition);
+    // scale
     newTree.scale.copy(
-      new THREE.Vector3(0.2, 0.2, 0.2)
+      new THREE.Vector3(scale, scale, scale)
     );
+
+    const axis = new THREE.Vector3(0, 1, 0);
+    console.log((this.sphere.root.position));
+    
+    newTree.quaternion.setFromUnitVectors(axis, 
+      newPosition.sub(this.sphere.root.position).clone().normalize());
+
     newTree.children[0].material[0].color.setRGB(1, 0.6, 0);
     newTree.children[0].material[1].color.setRGB(0.8, 1, 0.2);
-    this.root.add(newTree);
+    newTree.rotateY(Math.random() * 360)
+    this.sphere.root.add(newTree);
   }
 
   update(timeElapsed, delta) {
-    let id = 0;
-    this.root.traverse((tree) => {
-      const oldScale = tree.scale.clone();
-      oldScale.y = Math.abs( Math.sin(timeElapsed + id) ) + 0.2;
-      tree.scale.copy(oldScale);
-      id++;
-    });
+    let newColor = new THREE.Color();
+    this.sphere.root.material.emissive.getHSL(newColor);
+    newColor.s = (Math.sin(timeElapsed + (Math.PI * 0.27)) + 1) * 0.5;
+    newColor.l = (Math.cos(timeElapsed) + 1) * 0.25;
+    this.sphere.root.material.emissive.setHSL(newColor.h, newColor.s, newColor.l);
+    
+    this.sphere.root.rotateY(delta * 0.35);
   }
 
 }
