@@ -1,14 +1,18 @@
 import './index.css';
+const decamelize = require('decamelize');
+const titleize = require('titleize');
 
-const CubeLoop = 'CubeLoop.js';
-const GridLoop = 'GridLoop.js';
-const SkyscrapersLoop = 'SkyscrapersLoop.js';
-const SunLoop = 'SunLoop.js';
-const FloatingBio = 'FloatingBio.js';
-const MorphingSphere = 'MorphingSphere.js';
-const Lissajoux = 'Lissajoux.js';
-const OpenHead = 'OpenHead.js';
-const TreeExample = 'TreeExample.js';
+const Loops = [
+    'CubeLoop',
+    'GridLoop',
+    'SkyscrapersLoop',
+    'SunLoop',
+    'FloatingBio',
+    'MorphingSphere',
+    'Lissajoux',
+    'OpenHead',
+    'TreeExample'
+]
 
 class App {
     constructor() {
@@ -38,15 +42,14 @@ class App {
     }
 
     PopulateMenu() {
-        this.loops.push(this.AddLoopButton('Cube Loop', CubeLoop));
-        this.loops.push(this.AddLoopButton('Grid Loop 0', GridLoop));
-        this.loops.push(this.AddLoopButton('Skyscrapers', SkyscrapersLoop));
-        this.loops.push(this.AddLoopButton('Sun Loop', SunLoop));
-        this.loops.push(this.AddLoopButton('Floating Bio', FloatingBio));
-        this.loops.push(this.AddLoopButton('Morphing Sphere', MorphingSphere));
-        this.loops.push(this.AddLoopButton('Lissajoux', Lissajoux));
-        this.loops.push(this.AddLoopButton('Open Head', OpenHead));
-        this.loops.push(this.AddLoopButton('Tree Example', TreeExample));
+        for (let loop of Loops) {
+            this.loops.push(
+                this.AddLoopButton(
+                    titleize(decamelize(loop, ' ')),
+                    loop
+                )
+            );
+        }
     }
 
     AddLoopButton(text, loop) {
