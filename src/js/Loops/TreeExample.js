@@ -23,11 +23,13 @@ export default class TreeExample {
       flatShading: true
     });
 
+    sphereMaterial.emissive.setRGB(157/255, 239/255, 247/255);
+
     this.sphere = new BasicSphere({
       size: 6,
       material: sphereMaterial,
-      widthSegments: 8,
-      heightSegments: 6,
+      widthSegments: 20,
+      heightSegments: 10,
       receiveShadow: true
     });
 
@@ -50,7 +52,7 @@ export default class TreeExample {
       castShadow: true,
       bias: 0.00002,
       projectionSides: 6.5,
-      mapSize: 2048
+      mapSize: 256
     });
     lights.rotateY(Math.PI);
     this.root.add(lights);
@@ -111,8 +113,10 @@ export default class TreeExample {
       newPosition.sub(this.sphere.root.position).clone().normalize());
 
     newTree.children[0].material[0].color.setRGB(1, 0.6, 0);
-    newTree.children[0].material[1].color.setRGB(0.8, 1, 0.2);
-    newTree.rotateY(Math.random() * 360)
+    newTree.children[0].material[1].color.setRGB(224/255, 252/255, 1);
+    newTree.children[0].material[1].emissive.setRGB(224/255*0.2, 252/255*0.2, 1*0.2);
+    newTree.rotateY(Math.random() * 360);
+    console.log(newTree);
     this.sphere.root.add(newTree);
   }
 
@@ -120,8 +124,15 @@ export default class TreeExample {
     let newColor = new THREE.Color();
     this.sphere.root.material.emissive.getHSL(newColor);
     newColor.s = (Math.sin(timeElapsed + (Math.PI * 0.27)) + 1) * 0.5;
-    newColor.l = (Math.cos(timeElapsed) + 1) * 0.25;
+    newColor.l = (Math.cos(timeElapsed) + 1) * 0.1;
     this.sphere.root.material.emissive.setHSL(newColor.h, newColor.s, newColor.l);
+
+    for (let conteggio = 0; conteggio < this.sphere.root.children.length; conteggio = conteggio + 1) {
+      const tree = this.sphere.root.children[conteggio].children[0];
+      const newPosition = tree.position;
+      newPosition.y = Math.sin(timeElapsed + (conteggio * 0.05)) * 30;
+      tree.position.copy(newPosition);
+    }
     
     this.sphere.root.rotateY(delta * 0.35);
   }
