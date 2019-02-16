@@ -40,8 +40,8 @@
     "build": "webpack --config webpack.prod.config.js --progress --colors",
     "build:branch": "cross-env DEST=branch webpack --config webpack.prod.config.js --progress --colors",
     "dev": "webpack-dev-server --config webpack.dev.config.js --progress --colors",
-    "deploy": "gh-pages -d dist -m \"[ci skip]\"",
-    "serve:analysis": "serve dist"
+    "deploy": "gh-pages -a -d dist -m \"[ci skip]\"",
+    "serve": "serve dist"
   },
   "author": "Luca esnho Moroni",
   "license": "ISC"

@@ -16,7 +16,10 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: node ./getGit.js
+      - run: node ./build-branch.js
+      - run: git config --global user.email circleci@circleci
+      - run: git config --global user.name CircleCI
+      - run: npm run deploy
 workflows:
   version: 2
   build_and_deploy:
@@ -31,5 +34,5 @@ workflows:
       - git-test:
           filters:
                 branches:
-                  only:
-                    - git-test
+                  ignore:
+                    - master
