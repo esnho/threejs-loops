@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "cross-env": "^5.2.0",
     "dat.gui": "0.7.5",
     "three": "0.101.1",
     "three-obj-loader": "^1.1.3",
@@ -24,6 +25,7 @@
     "gh-pages": "2.0.1",
     "glslify-loader": "2.0.0",
     "html-webpack-plugin": "3.2.0",
+    "nodegit": "^0.24.1",
     "raw-loader": "1.0.0",
     "serve": "^10.1.1",
     "shader-loader": "1.3.1",
@@ -36,9 +38,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.config.js --progress --colors",
+    "build:branch": "cross-env DEST=branch webpack --config webpack.prod.config.js --progress --colors",
     "dev": "webpack-dev-server --config webpack.dev.config.js --progress --colors",
-    "deploy": "gh-pages -d dist -m \"[ci skip]\"",
-    "serve:analysis": "serve dist"
+    "deploy": "gh-pages -a -d dist -m \"[ci skip]\"",
+    "serve": "serve dist"
   },
   "author": "Luca esnho Moroni",
   "license": "ISC"

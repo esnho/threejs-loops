@@ -6,7 +6,6 @@ var src             = './src',
     entry 		      = path.resolve(src, 'js/index.js'),
     jsPath		      = './js/',
     outputName		  = 'bundle.min.js',
-    nodeModulesPath	= path.join(__dirname, 'node_modules'),
     output		      = path.join(__dirname, 'dist'),
     templates       = path.join(__dirname, src+'/index.html');
 
