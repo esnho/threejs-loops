@@ -24,14 +24,17 @@ class App {
         this.AddCloseRendererToMenu();
         this.PopulateMenu();
         this.CreateOpenMenuButton();
-        this.StartLoop( this.loops[this.loops.length-1] );
+        this.StartLoop( this.loops[this.loops.length-2] );
     }
 
     CreateMenu() {
+        this.menuContainer = document.createElement('div');
+        this.menuContainer.setAttribute('id', 'menu-container');
+        this.menuContainer.setAttribute('class', 'show');
         this.menu = document.createElement('ul');
         this.menu.setAttribute('id', 'menu');
-        this.menu.setAttribute('class', 'show');
-        document.body.appendChild(this.menu);
+        this.menuContainer.appendChild(this.menu);
+        document.body.appendChild(this.menuContainer);
     }
 
     AddCloseRendererToMenu() {
@@ -55,7 +58,9 @@ class App {
     AddLoopButton(text, loop) {
         const menuVoice = this.MenuElement(
             text,
-            e => this.StartLoop(e.target));
+            e => {
+                this.StartLoop(e.target);
+            });
         menuVoice.setAttribute('loopName', loop);
         return this.menu.appendChild(menuVoice);
     }
@@ -68,6 +73,11 @@ class App {
     }
 
     StartLoop(targetButton) {
+        console.log(targetButton.parentElement);
+        console.log(targetButton);
+        
+        targetButton.parentElement.scrollTo(0, targetButton.getBoundingClientRect().top)
+
         this.SelectMenuVoice(targetButton);
         console.log("starting loop");
         this.StartLoading();
@@ -125,12 +135,12 @@ class App {
     }
 
     ShowHideMenu() {
-        const currentClass = this.menu.getAttribute('class');
+        const currentClass = this.menuContainer.getAttribute('class');
         // https://css-tricks.com/restart-css-animation/
         // next three lines are a workaround to retrigger anim
-        this.menu.classList.remove(currentClass);
-        void this.menu.offsetWidth;
-        this.menu.classList.add(currentClass === 'hide' ? 'show' : 'hide');
+        this.menuContainer.classList.remove(currentClass);
+        void this.menuContainer.offsetWidth;
+        this.menuContainer.classList.add(currentClass === 'hide' ? 'show' : 'hide');
     }
 
     DestroyScene() {

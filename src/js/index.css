@@ -1,6 +1,5 @@
 body {
     width: 100vw;
-    height: 100vh;
     display: flex;
     flex-direction: row;
     overflow: hidden;
@@ -11,25 +10,43 @@ canvas {
     position: absolute;
     left: 0;
     top: 0;
+    bottom: 0;
+    right: 0;
     z-index: -10;
+}
+
+#menu-container {
+    position: absolute;
+    top: 0;
+    background: white;
+    padding: 0.5em 0 0 0.5em;
+    margin: 0;
+    opacity: 0.7;
+    /* height: calc(100vh - 0.5em); */
+    bottom: 0;
+    font-size: 3.5vh;
 }
 
 
 #menu {
-    position: absolute;
+    position: relative;
     top: 0;
-    height: 100vh;
-    background: white;
-    padding: 0.5em 2em 0 1.0em;
+    padding: 0.5em 0em 0 0.5em;
+    padding-right: 1em;
+    bottom: 0;
     margin: 0;
     display: flex;
     flex-flow: column;
-    font-size: 3em;
-    opacity: 0.7;
+    overflow: auto;
+    height: calc(100% - 5em);
 }
 
+#menu::after {
+    height: 4em;
+    background-color: red;
+}
 
-@media only screen 
+/* @media only screen 
 and (min-device-width: 768px) 
 and (max-device-width: 1024px)
 and (-webkit-min-device-pixel-ratio: 2) { 
@@ -70,14 +87,13 @@ and (orientation: landscape) {
     #menu {
         font-size: 1em;
     }
-}
+} */
 
 #menu li {
     margin: 0.1em 0;
     list-style: none;
     font-family: monospace;
     font-variant: all-small-caps;
-    font-size: 1.3em;
     cursor: pointer;
     position: relative;
     display: block;
@@ -101,21 +117,21 @@ and (orientation: landscape) {
     left: 0.1em;
     bottom: 0.1em;
     display: block;
-    font-size: 2.5em;
+    font-size: 3.5em;
     color: #f5f5f5;
     text-shadow: 2px 2px #999;
     cursor: pointer;
     transform: translate(35%, 0) scaleX(1.4);
 }
 
-#menu.show {
+#menu-container.show {
     animation-name: menu-anim;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
     animation-direction: normal;
 }
 
-#menu.hide {
+#menu-container.hide {
     animation-name: menu-anim;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
@@ -149,9 +165,6 @@ and (orientation: landscape) {
     align-self: center;
     vertical-align: middle;
     line-height: normal;
-   /*  animation-name: loading;
-    animation-duration: 6s;
-    animation-iteration-count: infinite; */
     font-size: 3em;
     font-family: sans-serif;
     font-weight: bolder;
