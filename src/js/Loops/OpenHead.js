@@ -6,13 +6,17 @@ import BasicCube from '../Objects/BasicCube';
 import * as OBJLoader from 'three-obj-loader';
 OBJLoader(THREE);
 
-export default class Lissajoux {
+function isMobileDevice() {
+  return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+};
+
+export default class OpenHead {
   constructor({scene, onLoad}) {
     this.scene = scene;
     this.setupCamera();
     
     scene.renderer.shadowMap.enabled = true;
-    scene.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    scene.renderer.shadowMap.type = isMobileDevice() ? THREE.BasicShadowMap : THREE.PCFSoftShadowMap;
 
     this.root = new THREE.Group();
 

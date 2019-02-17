@@ -11,7 +11,7 @@ export default class TreeExample {
     this.setupCamera();
     
     scene.renderer.shadowMap.enabled = true;
-    scene.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    scene.renderer.shadowMap.type = THREE.PCFShadowMap;
 
     this.root = new THREE.Group();
 
@@ -52,7 +52,7 @@ export default class TreeExample {
       castShadow: true,
       bias: 0.00002,
       projectionSides: 6.5,
-      mapSize: 256
+      mapSize: 1024
     });
     lights.rotateY(Math.PI);
     this.root.add(lights);
@@ -90,9 +90,7 @@ export default class TreeExample {
       obj.receiveShadow = true;
     });
 
-    for(let i = 0; i < this.sphere.root.geometry.vertices.length; i++) {
-      console.log(this.sphere.root.geometry.vertices[i]);
-      
+    for(let i = 0; i < this.sphere.root.geometry.vertices.length; i++) {      
       this.addTree(object, this.sphere.root.geometry.vertices[i], 0.1);
     }
   }
@@ -107,7 +105,6 @@ export default class TreeExample {
     );
 
     const axis = new THREE.Vector3(0, 1, 0);
-    console.log((this.sphere.root.position));
     
     newTree.quaternion.setFromUnitVectors(axis, 
       newPosition.sub(this.sphere.root.position).clone().normalize());
@@ -116,7 +113,6 @@ export default class TreeExample {
     newTree.children[0].material[1].color.setRGB(224/255, 252/255, 1);
     newTree.children[0].material[1].emissive.setRGB(224/255*0.2, 252/255*0.2, 1*0.2);
     newTree.rotateY(Math.random() * 360);
-    console.log(newTree);
     this.sphere.root.add(newTree);
   }
 
