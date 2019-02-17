@@ -24,7 +24,7 @@ class App {
         this.AddCloseRendererToMenu();
         this.PopulateMenu();
         this.CreateOpenMenuButton();
-        this.StartLoop( this.loops[this.loops.length-2] );
+        this.StartLoop( this.loops[this.loops.length-1] );
     }
 
     CreateMenu() {
