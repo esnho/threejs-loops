@@ -2,11 +2,11 @@ import * as THREE from 'three';
 import tree from '../../obj/Lowpoly_tree_sample.obj';
 import Lights from '../Lights/TwoDirectionals';
 import BasicSphere from '../Objects/BasicSphere';
-import * as OBJLoader from 'three-obj-loader';
-OBJLoader(THREE);
+import { OBJLoader } from 'three-obj-mtl-loader';
 
 export default class TreeExample {
   constructor({scene, onLoad}) {
+    
     this.scene = scene;
     this.setupCamera();
     
@@ -64,7 +64,7 @@ export default class TreeExample {
   }
 
   loadTree() {
-    const loader = new THREE.OBJLoader();
+    const loader = new OBJLoader();
     this.onHeadReady = this.onTreeReady.bind(this);
     this.onHeadLoading = this.onHeadLoading.bind(this);
     this.onTreeReady = this.onTreeReady.bind(this);
