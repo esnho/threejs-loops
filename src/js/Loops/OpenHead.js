@@ -3,8 +3,7 @@ import head from '../../obj/male.obj';
 import Lights from '../Lights/TwoDirectionals';
 import BasicSphere from '../Objects/BasicSphere';
 import BasicCube from '../Objects/BasicCube';
-import * as OBJLoader from 'three-obj-loader';
-OBJLoader(THREE);
+import { OBJLoader } from 'three-obj-mtl-loader';
 
 function isMobileDevice() {
   return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
@@ -154,7 +153,7 @@ export default class OpenHead {
   }
 
   loadHead() {
-    const loader = new THREE.OBJLoader();
+    const loader = new OBJLoader();
     this.onHeadReady = this.onHeadReady.bind(this);
     this.onHeadLoading = this.onHeadLoading.bind(this);
     loader.load(
