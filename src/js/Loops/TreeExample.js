@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import tree from '../../obj/Lowpoly_tree_sample.obj';
 import Lights from '../Lights/TwoDirectionals';
-import BasicSphere from '../Objects/BasicSphere';
+import BasicTorus from '../Objects/BasicTorus';
 import { OBJLoader } from 'three-obj-mtl-loader';
 
 export default class TreeExample {
@@ -15,66 +15,86 @@ export default class TreeExample {
 
     this.root = new THREE.Group();
 
-    this.loadTree();
     this.setupLights();
+    this.setupTunnel();
 
-    const sphereMaterial = new THREE.MeshStandardMaterial({
-      emissive: 0x5e0311,
-      flatShading: true
+    this.tRays = new THREE.Group();
+    this.tRaysMat = new THREE.MeshBasicMaterial({
+      side: THREE.DoubleSide
     });
 
-    sphereMaterial.emissive.setRGB(157/255, 239/255, 247/255);
+    for (let i = 0; i < 18; i++) {
+      const rayRotation = new THREE.Quaternion();
+      rayRotation.setFromEuler(new THREE.Euler(Math.PI * 0.5, (Math.random() -0.5) * 0.17, Math.random()), true);
+      const newRay = new BasicTorus({
+        radius: 15 + ((Math.random() -0.5) * 5.5),
+        tube: 0.2,
+        tubularSegments: 46,
+        radialSegments: 6,
+        rotation: rayRotation,
+        material: this.tRaysMat,
+        position: new THREE.Vector3(0, 1.5 - (Math.random() * 3), 0)
+      });
+      newRay.geometry.faces = newRay.geometry.faces.map((value, index) => {
+        if ((index%6 == 0) && (index%13 == 0)) return value;
+      }).filter((value) => {
+        return value != undefined;
+      });
+      newRay.geometry.elementsNeedUpdate = true;
+      this.tRays.add(newRay.root);
+    }
 
-    this.sphere = new BasicSphere({
-      size: 6,
-      material: sphereMaterial,
-      widthSegments: 20,
-      heightSegments: 10,
-      receiveShadow: true
-    });
-
-    this.sphere.root.rotateX(26 * (Math.PI / 180))
-
-    console.log(this.sphere.root.geometry)
-
-    this.root.add(this.sphere.root);
+    this.root.add(this.tRays);
 
     if (onLoad) onLoad();
+  }
+
+  setupTunnel() {
+
+    const torusMaterial = new THREE.MeshStandardMaterial({
+      color: 0x5e0311,
+      flatShading: true,
+      side: THREE.CullFaceFront
+    });
+    torusMaterial.color.setRGB(157/255, 239/255, 247/255);
+    this.torusRotation = new THREE.Quaternion();
+    this.torusRotation.setFromEuler(new THREE.Euler(Math.PI * 0.5, 0, 0), true);
+
+    const torusWireframe = new THREE.MeshBasicMaterial({
+      wireframe: true
+    })
+
+    this.torus = new BasicTorus({
+      radius: 15,
+      tube: 2.8,
+      material: [torusMaterial, torusWireframe],
+      tubularSegments: 64,
+      radialSegments: 24,
+      rotation: this.torusRotation,
+      materialGroups: [{start:0, count:Infinity, id:1}]
+    });
+
+    this.root.add(this.torus.root);
+
+  }
+
+  setupLights() {
+    this.lights = new Lights({
+      intensity: 0.6,
+    });
+    this.lights.rotateY(Math.PI);
+    this.root.add(this.lights);
   }
 
   loading(percentage) {    
     
   }
 
-  setupLights() {
-    const lights = new Lights({
-      intensity: 1.8,
-      castShadow: true,
-      bias: 0.00002,
-      projectionSides: 6.5,
-      mapSize: 1024
-    });
-    lights.rotateY(Math.PI);
-    this.root.add(lights);
-  }
-
   setupCamera() {
-    this.scene.camera.position.copy(new THREE.Vector3(0, 4.5, 18));
-    this.scene.camera.lookAt(new THREE.Vector3(0, 0, 0));
-  }
-
-  loadTree() {
-    const loader = new OBJLoader();
-    this.onHeadReady = this.onTreeReady.bind(this);
-    this.onHeadLoading = this.onHeadLoading.bind(this);
-    this.onTreeReady = this.onTreeReady.bind(this);
-    loader.load(
-      tree,
-      this.onTreeReady,
-      this.onHeadLoading,
-      function (error) {
-        console.log('An error happened', error);
-      });
+    this.scene.camera.position.copy(new THREE.Vector3(-14.8, 0, 0));
+    this.scene.camera.near = 0.001;
+    this.scene.camera.updateProjectionMatrix();
+    //this.scene.camera.lookAt(new THREE.Vector3(0, 0, 0));
   }
 
   onHeadLoading(xhr) {
@@ -85,52 +105,18 @@ export default class TreeExample {
   }
 
   onTreeReady(object) {
-    object.traverse((obj) => {
-      obj.castShadow = true;
-      obj.receiveShadow = true;
-    });
-
-    for(let i = 0; i < this.sphere.root.geometry.vertices.length; i++) {      
-      this.addTree(object, this.sphere.root.geometry.vertices[i], 0.1);
-    }
   }
 
   addTree(object, newPosition, scale) {
-    const newTree = object.clone();
-    // set position
-    newTree.position.copy(newPosition);
-    // scale
-    newTree.scale.copy(
-      new THREE.Vector3(scale, scale, scale)
-    );
-
-    const axis = new THREE.Vector3(0, 1, 0);
-    
-    newTree.quaternion.setFromUnitVectors(axis, 
-      newPosition.sub(this.sphere.root.position).clone().normalize());
-
-    newTree.children[0].material[0].color.setRGB(1, 0.6, 0);
-    newTree.children[0].material[1].color.setRGB(224/255, 252/255, 1);
-    newTree.children[0].material[1].emissive.setRGB(224/255*0.2, 252/255*0.2, 1*0.2);
-    newTree.rotateY(Math.random() * 360);
-    this.sphere.root.add(newTree);
   }
 
   update(timeElapsed, delta) {
-    let newColor = new THREE.Color();
-    this.sphere.root.material.emissive.getHSL(newColor);
-    newColor.s = (Math.sin(timeElapsed + (Math.PI * 0.27)) + 1) * 0.5;
-    newColor.l = (Math.cos(timeElapsed) + 1) * 0.1;
-    this.sphere.root.material.emissive.setHSL(newColor.h, newColor.s, newColor.l);
-
-    for (let conteggio = 0; conteggio < this.sphere.root.children.length; conteggio = conteggio + 1) {
-      const tree = this.sphere.root.children[conteggio].children[0];
-      const newPosition = tree.position;
-      newPosition.y = Math.sin(timeElapsed + (conteggio * 0.05)) * 30;
-      tree.position.copy(newPosition);
+    this.torus.root.rotateZ(-0.5 * delta);
+    for (let i = 0; i < this.tRays.children.length; i++) {
+      this.tRays.children[i].rotateZ((1.4 * delta) + (i * 0.001));
     }
-    
-    this.sphere.root.rotateY(delta * 0.35);
+    this.scene.camera.rotateZ(Math.sin(timeElapsed) * (Math.cos(timeElapsed * 0.1) * -0.02))
+    this.lights.rotateX(Math.sin(timeElapsed) * (Math.cos(timeElapsed * 0.1) * -0.02));
   }
 
 }
