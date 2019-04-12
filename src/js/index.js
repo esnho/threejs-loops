@@ -1,14 +1,18 @@
 import './index.css';
+const decamelize = require('decamelize');
+const titleize = require('titleize');
 
-const CubeLoop = 'CubeLoop.js';
-const GridLoop = 'GridLoop.js';
-const SkyscrapersLoop = 'SkyscrapersLoop.js';
-const SunLoop = 'SunLoop.js';
-const FloatingBio = 'FloatingBio.js';
-const MorphingSphere = 'MorphingSphere.js';
-const Lissajoux = 'Lissajoux.js';
-const OpenHead = 'OpenHead.js';
-const TreeExample = 'TreeExample.js';
+const Loops = [
+    'CubeLoop',
+    'GridLoop',
+    'SkyscrapersLoop',
+    'SunLoop',
+    'FloatingBio',
+    'MorphingSphere',
+    'Lissajoux',
+    'OpenHead',
+    'TreeExample'
+]
 
 class App {
     constructor() {
@@ -24,10 +28,13 @@ class App {
     }
 
     CreateMenu() {
+        this.menuContainer = document.createElement('div');
+        this.menuContainer.setAttribute('id', 'menu-container');
+        this.menuContainer.setAttribute('class', 'show');
         this.menu = document.createElement('ul');
         this.menu.setAttribute('id', 'menu');
-        this.menu.setAttribute('class', 'show');
-        document.body.appendChild(this.menu);
+        this.menuContainer.appendChild(this.menu);
+        document.body.appendChild(this.menuContainer);
     }
 
     AddCloseRendererToMenu() {
@@ -38,21 +45,22 @@ class App {
     }
 
     PopulateMenu() {
-        this.loops.push(this.AddLoopButton('Cube Loop', CubeLoop));
-        this.loops.push(this.AddLoopButton('Grid Loop 0', GridLoop));
-        this.loops.push(this.AddLoopButton('Skyscrapers', SkyscrapersLoop));
-        this.loops.push(this.AddLoopButton('Sun Loop', SunLoop));
-        this.loops.push(this.AddLoopButton('Floating Bio', FloatingBio));
-        this.loops.push(this.AddLoopButton('Morphing Sphere', MorphingSphere));
-        this.loops.push(this.AddLoopButton('Lissajoux', Lissajoux));
-        this.loops.push(this.AddLoopButton('Open Head', OpenHead));
-        this.loops.push(this.AddLoopButton('Tree Example', TreeExample));
+        for (let loop of Loops) {
+            this.loops.push(
+                this.AddLoopButton(
+                    titleize(decamelize(loop, ' ')),
+                    loop
+                )
+            );
+        }
     }
 
     AddLoopButton(text, loop) {
         const menuVoice = this.MenuElement(
             text,
-            e => this.StartLoop(e.target));
+            e => {
+                this.StartLoop(e.target);
+            });
         menuVoice.setAttribute('loopName', loop);
         return this.menu.appendChild(menuVoice);
     }
@@ -65,6 +73,11 @@ class App {
     }
 
     StartLoop(targetButton) {
+        console.log(targetButton.parentElement);
+        console.log(targetButton);
+        
+        targetButton.parentElement.scrollTo(0, targetButton.getBoundingClientRect().top)
+
         this.SelectMenuVoice(targetButton);
         console.log("starting loop");
         this.StartLoading();
@@ -122,12 +135,12 @@ class App {
     }
 
     ShowHideMenu() {
-        const currentClass = this.menu.getAttribute('class');
+        const currentClass = this.menuContainer.getAttribute('class');
         // https://css-tricks.com/restart-css-animation/
         // next three lines are a workaround to retrigger anim
-        this.menu.classList.remove(currentClass);
-        void this.menu.offsetWidth;
-        this.menu.classList.add(currentClass === 'hide' ? 'show' : 'hide');
+        this.menuContainer.classList.remove(currentClass);
+        void this.menuContainer.offsetWidth;
+        this.menuContainer.classList.add(currentClass === 'hide' ? 'show' : 'hide');
     }
 
     DestroyScene() {

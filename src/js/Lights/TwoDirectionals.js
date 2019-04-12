@@ -29,6 +29,7 @@ export default class TwoDirectionals extends Group {
         this.intensity = intensity;
         this.projectionSides = projectionSides;
         this.mapSize = mapSize;
+        console.log("mapsize", this.mapSize)
         
         /* const whiteEmi = new WhiteHemi();
         this.add(whiteEmi); */
@@ -44,7 +45,7 @@ export default class TwoDirectionals extends Group {
         this.updateProjection(directionalLight, this.projectionSides);
         this.updateProjection(directionalLight2, this.projectionSides);
         this.updateShadowMap(directionalLight, this.mapSize);
-        this.updateShadowMap(directionalLight, this.mapSize);
+        this.updateShadowMap(directionalLight2, this.mapSize);
 
         directionalLight.position.copy(
             new Vector3(

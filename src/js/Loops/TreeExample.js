@@ -2,15 +2,16 @@ import * as THREE from 'three';
 import tree from '../../obj/Lowpoly_tree_sample.obj';
 import Sphere from '../Objects/BasicSphere';
 import Lights from '../Lights/TwoDirectionals';
-import * as OBJLoader from 'three-obj-loader';
-OBJLoader(THREE);
+import BasicSphere from '../Objects/BasicSphere';
+import { OBJLoader } from 'three-obj-mtl-loader';
 
 export default class TreeExample {
   constructor({scene, onLoad}) {
+    
     this.scene = scene;
     
     scene.renderer.shadowMap.enabled = true;
-    scene.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    scene.renderer.shadowMap.type = THREE.PCFShadowMap;
 
     this.root = new THREE.Group();
 
@@ -31,11 +32,11 @@ export default class TreeExample {
 
     console.log(">>>>>>>",this.sphere);
 
-    if (onLoad) onLoad();
-  }
+    console.log(this.sphere.root.geometry)
 
-  loading(percentage) {    
-    
+    this.root.add(this.sphere.root);
+
+    if (onLoad) onLoad();
   }
 
   setupLights() {
@@ -51,7 +52,7 @@ export default class TreeExample {
   }
 
   loadTree() {
-    const loader = new THREE.OBJLoader();
+    const loader = new OBJLoader();
     this.onHeadReady = this.onTreeReady.bind(this);
     this.onHeadLoading = this.onTreeLoading.bind(this);
     this.onTreeReady = this.onTreeReady.bind(this);
@@ -71,8 +72,6 @@ export default class TreeExample {
   onTreeLoading(xhr) {
     const loading = xhr.loaded / xhr.total;
     console.log((loading * 100) + '% loaded');
-    
-    this.loading(Math.sin(loading));
   }
 
   onTreeReady(object) {
@@ -87,6 +86,7 @@ export default class TreeExample {
 
   addTree(object, newPosition) {
     const newTree = object.clone();
+    // set position
     newTree.position.copy(newPosition);
     const scale = 0.1;
     newTree.scale.copy(

@@ -3,16 +3,19 @@ import head from '../../obj/male.obj';
 import Lights from '../Lights/TwoDirectionals';
 import BasicSphere from '../Objects/BasicSphere';
 import BasicCube from '../Objects/BasicCube';
-import * as OBJLoader from 'three-obj-loader';
-OBJLoader(THREE);
+import { OBJLoader } from 'three-obj-mtl-loader';
 
-export default class Lissajoux {
+function isMobileDevice() {
+  return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+};
+
+export default class OpenHead {
   constructor({scene, onLoad}) {
     this.scene = scene;
     this.setupCamera();
     
     scene.renderer.shadowMap.enabled = true;
-    scene.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    scene.renderer.shadowMap.type = isMobileDevice() ? THREE.BasicShadowMap : THREE.PCFSoftShadowMap;
 
     this.root = new THREE.Group();
 
@@ -150,7 +153,7 @@ export default class Lissajoux {
   }
 
   loadHead() {
-    const loader = new THREE.OBJLoader();
+    const loader = new OBJLoader();
     this.onHeadReady = this.onHeadReady.bind(this);
     this.onHeadLoading = this.onHeadLoading.bind(this);
     loader.load(
