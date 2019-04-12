@@ -26,8 +26,10 @@ export default class TreeExample {
     });
     
     this.root.add(this.sphere.root);
-    this.loadTree();
     this.setupLights();
+    this.loadTree();
+
+    console.log(">>>>>>>",this.sphere);
 
     if (onLoad) onLoad();
   }
@@ -51,7 +53,7 @@ export default class TreeExample {
   loadTree() {
     const loader = new THREE.OBJLoader();
     this.onHeadReady = this.onTreeReady.bind(this);
-    this.onHeadLoading = this.onHeadLoading.bind(this);
+    this.onHeadLoading = this.onTreeLoading.bind(this);
     this.onTreeReady = this.onTreeReady.bind(this);
     loader.load(
       // oggetto tridimensionale
@@ -59,14 +61,14 @@ export default class TreeExample {
       // funzione da chiamare quando l'oggetto 3D è stato caricato
       this.onTreeReady,
       // funzione da chiamre durante il caricamente
-      this.onHeadLoading,
+      this.onTreeLoading,
       // fuzione in caso di errore
       function (error) {
         console.log('An error happened', error);
       });
   }
 
-  onHeadLoading(xhr) {
+  onTreeLoading(xhr) {
     const loading = xhr.loaded / xhr.total;
     console.log((loading * 100) + '% loaded');
     
@@ -86,8 +88,9 @@ export default class TreeExample {
   addTree(object, newPosition) {
     const newTree = object.clone();
     newTree.position.copy(newPosition);
+    const scale = 0.1;
     newTree.scale.copy(
-      new THREE.Vector3(0.1, 0.1, 0.1)
+      new THREE.Vector3(scale, scale, scale)
     );
 
     const up = new THREE.Vector3(0, 1, 0);
@@ -103,9 +106,14 @@ export default class TreeExample {
   }
 
   update(timeElapsed, delta) {
-    let id = 0;
-    this.sphere.root.rotateY(0.05);
-    this.sphere.root.rotateZ(0.01);
+    this.sphere.root.rotateY(0.5 * delta);
+    this.sphere.root.rotateZ(0.1 * delta);
+    for (let i = 0; i < this.sphere.root.children.length; i++) {
+      const tree =  this.sphere.root.children[i];
+      tree.translateY(
+        Math.cos(timeElapsed + i) * (delta)
+      );
+    }
   }
 
 }
