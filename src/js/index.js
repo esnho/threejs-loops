@@ -11,7 +11,8 @@ const Loops = [
     'MorphingSphere',
     'Lissajoux',
     'OpenHead',
-    'TreeExample'
+    'TreeExample',
+    'NotOptimized'
 ]
 
 class App {
