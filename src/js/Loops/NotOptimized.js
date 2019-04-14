@@ -9,49 +9,58 @@ export default class NotOptimized {
     this.root = new THREE.Group();
     this.setupLights();
 
-    
+    this.initScene();
+
+    if (onLoad) onLoad();
+  }
+
+  initScene() {
     const sphereMaterial = new THREE.MeshStandardMaterial({
       flatShading: true
     });
 
     this.sphere = new BasicSphere({
-      size: 5,
+      size: 4,
       material: sphereMaterial,
-      widthSegments: 5,
+      widthSegments: 6,
       heightSegments: 4
     });
 
     this.root.add(this.sphere.root)
 
-    this.startCrasy(this.sphere, 0.4, 3);
-
-    if (onLoad) onLoad();
+    this.startCrasy(this.sphere, 0.5, 4);
   }
 
-  startCrasy(target, ratio, limit) {
-    limit--;
-    for (let i = 0; i < target.root.geometry.vertices.length; i++) {  
+  startCrasy(target, ratio, limit, totalElements, currentElement = 0) {
+    totalElements = totalElements || target.root.geometry.vertices.length;
+    if (currentElement < totalElements) {
       const sphere = new BasicSphere({
         size: target.geometry.parameters.radius * ratio,
         material: target.material,
-        widthSegments: target.geometry.parameters.widthSegments,
-        heightSegments: target.geometry.parameters.heightSegments,
+        widthSegments: Math.max( target.geometry.parameters.widthSegments - 1, 1 ),
+        heightSegments: Math.max(target.geometry.parameters.heightSegments - 1, 1 ),
       });
-
       target.root.add(sphere.root);
-      const newPosition = target.root.geometry.vertices[i].clone();
+
+      const newPosition = target.root.geometry.vertices[currentElement].clone();
       sphere.root.position.copy(newPosition);
       
       const axis = new THREE.Vector3(0, 1, 0);
-      
       sphere.root.quaternion.setFromUnitVectors(
         axis, 
         newPosition.sub(target.root.position).clone().normalize()
       );
-      
-      if (limit > 0) {
-        this.startCrasy(sphere, ratio, limit);
-      }
+
+      currentElement++;
+      window.requestAnimationFrame(() => {
+        this.startCrasy(target, ratio, limit, totalElements, currentElement);
+        limit--;
+        if (limit > 0) {
+          window.requestAnimationFrame(() => {
+              this.startCrasy(sphere, ratio, limit);
+          });
+        }
+      });
     }
   }
 
